@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-center">
+  <form class="d-flex flex-column align-items-center" action="/posts/photobank" method="POST">
+    <div class="mb-3">
+      <input name="name" placeholder="Имя пользователя" type="text" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input name="text" placeholder="Написать пост" type="text" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input name="photo" placeholder="Загрузить фото" type="text" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Отправить</button>
+    <button type="button" class="btn btn-danger">Удалить пост</button>
+  </form>
+</div>
+
+<hr />
+
+<section class="d-flex flex-column align-items-center">
+  {{#each listOfPosts}}
+    <div class="card my-2" style="width: 18rem;">
+    <img src="{{this.photo}}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text">{{this.text}}</p>
+      </div>
+    </div>
+  {{/each}}
+</section>
