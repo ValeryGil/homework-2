@@ -53,34 +53,22 @@ server.delete('/fetch', (req, res) => {
 
 server.get('/posts', checkAuth, (req, res) => {
   const usersQuery = req.query
-  let postForRender = db.addPost
+  let postForRender = db.addPosts
   if (usersQuery.limit !== undefined && Number.isNaN(+usersQuery.limit) === false) {
-    postForRender = db.addPost.slice(0, usersQuery.limit)
+    postForRender = db.addPosts.slice(0, usersQuery.limit)
   }
   if (usersQuery.reverse === 'true') {
-    postForRender = db.addPost.reverse()
+    postForRender = db.addPosts.reverse()
   }
   if (((usersQuery.limit !== undefined && Number.isNaN(+usersQuery.limit) === false) && usersQuery.reverse) === 'true') {
-    postForRender = db.addPost.slice(0, usersQuery.limit).reverse()
+    postForRender = db.addPosts.slice(0, usersQuery.limit).reverse()
   }
   res.render('posts', { listOfPosts: postForRender })
 })
 
 server.post('/posts/photobank', (req, res) => {
-  const { name, text, photo } = req.body
-  db.addPost.push({
-    name,
-    text,
-    photo,
-  })
-  const sid = Date.now()
-  sessions[sid] = {
-    name,
-  }
-  res.cookie('sid', sid, {
-    httpOnly: true,
-    maxAge: 86400 * 1e3,
-  })
+  const dataFromForm = req.body
+  db.addPosts.push(dataFromForm)
   res.redirect('/posts')
 })
 
@@ -128,6 +116,24 @@ server.get('/auth/signout', (req, res) => {
     res.clearCookie(res.app.get('cookieName'))
     return res.redirect('/')
   })
+})
+
+server.delete('/delpost', (req, res) => {
+  const currentId = req.session?.user?.id
+  if (currentId) {
+    const { id } = req.body
+    const currentPostIndex = db.addPosts.findIndex((post) => post.id === id)
+    const currentPost = db.addPosts[currentPostIndex]
+    if (currentPost) {
+      if (currentPost.userId === currentId) {
+        db.addPosts.splice[currentPostIndex, 1]
+        res.sendStatus(200)
+      }
+      return res.sendStatus(403)
+    }
+    return res.sendStatus(404)
+  }
+  res.sendStatus(401)
 })
 
 server.get('*', (req, res) => {

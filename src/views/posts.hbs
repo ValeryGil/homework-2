@@ -10,7 +10,6 @@
       <input name="photo" placeholder="Загрузить фото" type="text" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary mb-3">Отправить</button>
-    <button type="button" class="btn btn-danger">Удалить пост</button>
   </form>
 </div>
 
@@ -23,6 +22,7 @@
       <div class="card-body">
         <h5 class="card-title">{{this.name}}</h5>
         <p class="card-text">{{this.text}}</p>
+        <button data-delpost class="btn btn-danger">Удалить пост</button>
       </div>
     </div>
   {{/each}}
