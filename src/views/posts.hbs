@@ -22,7 +22,9 @@
       <div class="card-body">
         <h5 class="card-title">{{this.name}}</h5>
         <p class="card-text">{{this.text}}</p>
-        <button type="button" action="/delpost" method="DELETE" class="btn btn-danger">Удалить пост</button>
+        <form action="/fetch" method="DELETE"> 
+          <button class="btn btn-danger">Удалить пост</button>
+        </form>
       </div>
     </div>
   {{/each}}

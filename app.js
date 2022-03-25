@@ -46,11 +46,6 @@ server.get('/', (req, res) => {
   res.render('main')
 })
 
-server.delete('/fetch', (req, res) => {
-  console.log(req.body, req.session)
-  res.sendStatus(204)
-})
-
 server.get('/posts', checkAuth, (req, res) => {
   const usersQuery = req.query
   let postForRender = db.addPosts
@@ -118,7 +113,7 @@ server.get('/auth/signout', (req, res) => {
   })
 })
 
-server.delete('/delpost', (req, res) => {
+server.delete("/fetch", (req, res) => {
   const currentId = req.session?.user?.id
   if (currentId) {
     const { id } = req.body
